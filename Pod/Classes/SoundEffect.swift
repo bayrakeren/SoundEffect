@@ -4,17 +4,17 @@
 //
 //  Created by Mark Hamilton on 2/16/16.
 //  Copyright © 2016 dryverless. (http://www.dryverless.com)
-//
+// 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-//
+// 
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-//
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,12 +22,12 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-//
+// 
 
 import UIKit
 import AVFoundation
 
-public class SoundEffect {
+class SoundEffect {
     
     private var _name: String! = "sound"
     private var _ofType: String! = "wav"
@@ -35,24 +35,24 @@ public class SoundEffect {
     private var _loop: Bool! = false
     private var _playing: Bool! = false
     private var _volume: Float! = 1.0
-    private var _duration: NSTimeInterval! = nil
+    private var _duration: TimeInterval! = nil
     private var _numberOfLoops: Int! = 0
     
-    public var sound: AVAudioPlayer!
+    var sound: AVAudioPlayer!
     
-    public var name: String {
+    var name: String {
         get {
             return _name
         }
     }
     
-    public var ofType: String {
+    var ofType: String {
         get {
             return _ofType
         }
     }
     
-    public var isEnabled: Bool {
+    var isEnabled: Bool {
         get {
             if let enableBool: Bool = _isEnabled {
                 return enableBool
@@ -62,15 +62,15 @@ public class SoundEffect {
         }
     }
     
-    public var loop: Bool {
+    var loop: Bool {
         get {
             return _loop
         }
     }
     
-    public var playing: Bool {
+    var playing: Bool {
         get {
-            if let isPlaying: Bool = sound.playing {
+            if let isPlaying: Bool = sound.isPlaying {
                 return isPlaying
             }
             else {
@@ -80,15 +80,15 @@ public class SoundEffect {
         }
     }
     
-    public var volume: Float {
+    var volume: Float {
         get {
             return _volume
         }
     }
     
-    public var duration: NSTimeInterval {
+    var duration: TimeInterval {
         get {
-            if let soundDuration: NSTimeInterval = sound.duration {
+            if let soundDuration: TimeInterval = sound.duration {
                 return soundDuration
             } else {
                 return _duration
@@ -96,20 +96,20 @@ public class SoundEffect {
         }
     }
     
-    public var numberOfLoops: Int {
+    var numberOfLoops: Int {
         get {
             return _numberOfLoops
         }
     }
     
-    public init(fileName: String, fileType: String) {
+    init(fileName: String, fileType: String) {
         
         self._name = fileName
         self._ofType = fileType
         
     }
     
-    public init(fileName: String, fileType: String, enableSound: Bool?, enableLooping: Bool?) {
+    init(fileName: String, fileType: String, enableSound: Bool?, enableLooping: Bool?) {
         
         self._name = fileName
         self._ofType = fileType
@@ -121,10 +121,10 @@ public class SoundEffect {
         if let looping = enableLooping {
             self._loop = looping
         }
-        
+    
     }
     
-    public init(fileName: String, fileType: String, enableSound: Bool?, enableLooping: Bool?, loopTotal: Int?, defaultVolume: Float?) {
+    init(fileName: String, fileType: String, enableSound: Bool?, enableLooping: Bool?, loopTotal: Int?, defaultVolume: Float?) {
         
         self._name = fileName
         self._ofType = fileType
@@ -146,7 +146,7 @@ public class SoundEffect {
         }
     }
     
-    public init(fileName: String, fileType: String, enableSound: Bool?, enableLooping: Bool?, defaultVolume: Float?) {
+    init(fileName: String, fileType: String, enableSound: Bool?, enableLooping: Bool?, defaultVolume: Float?) {
         
         self._name = fileName
         self._ofType = fileType
@@ -164,19 +164,19 @@ public class SoundEffect {
         }
     }
     
-    public init() {
+    init() {
         // must have sound.wav file
     }
     
-    public func prepareToPlay() {
+    func prepareToPlay() {
         
-        let path = NSBundle.mainBundle().pathForResource(self.name, ofType: self.ofType)
+        let path = Bundle.main.path(forResource: self.name, ofType: self.ofType)
         
-        let soundUrl = NSURL(fileURLWithPath: path!)
+        let soundUrl = URL(fileURLWithPath: path!)
         
         do {
             
-            try sound = AVAudioPlayer(contentsOfURL: soundUrl)
+            try sound = AVAudioPlayer(contentsOf: soundUrl)
             
             if loop {
                 
@@ -198,9 +198,9 @@ public class SoundEffect {
         }
     }
     
-    public func play() {
+    func play() {
         
-        if sound.playing {
+        if sound.isPlaying {
             sound.stop()
         }
         
@@ -209,39 +209,39 @@ public class SoundEffect {
         }
     }
     
-    public func stop() {
+    func stop() {
         
-        if sound.playing {
+        if sound.isPlaying {
             sound.stop()
         }
     }
     
-    public func pause() {
+    func pause() {
         
-        if sound.playing {
+        if sound.isPlaying {
             sound.pause()
         }
-        
+    
     }
     
-    public func enable() {
+    func enable() {
         
         _isEnabled = true
     }
     
-    public func disable() {
+    func disable() {
         
         _isEnabled = false
     }
     
-    public func toggle() {
+    func toggle() {
         
         _isEnabled = !_isEnabled
     }
     
-    public func setVolume(level: Float) {
+    func setVolume(level: Float) {
         
-        if sound.playing {
+        if sound.isPlaying {
             sound.volume = level
         }
     }
